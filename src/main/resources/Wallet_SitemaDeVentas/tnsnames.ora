@@ -1,0 +1,12 @@
+sitemadeventas_high = (description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1522)(host=adb.sa-saopaulo-1.oraclecloud.com))(connect_data=(service_name=gcdedece2e878d5_sitemadeventas_high.adb.oraclecloud.com))(security=(ssl_server_dn_match=yes)))
+
+sitemadeventas_low = (description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1522)(host=adb.sa-saopaulo-1.oraclecloud.com))(connect_data=(service_name=gcdedece2e878d5_sitemadeventas_low.adb.oraclecloud.com))(security=(ssl_server_dn_match=yes)))
+
+sitemadeventas_medium = (description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1522)(host=adb.sa-saopaulo-1.oraclecloud.com))(connect_data=(service_name=gcdedece2e878d5_sitemadeventas_medium.adb.oraclecloud.com))(security=(ssl_server_dn_match=yes)))
+
+sitemadeventas_tp = (description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1522)(host=adb.sa-saopaulo-1.oraclecloud.com))(connect_data=(service_name=gcdedece2e878d5_sitemadeventas_tp.adb.oraclecloud.com))(security=(ssl_server_dn_match=yes)))
+
+sitemadeventas_tpurgent = (description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1522)(host=adb.sa-saopaulo-1.oraclecloud.com))(connect_data=(service_name=gcdedece2e878d5_sitemadeventas_tpurgent.adb.oraclecloud.com))(security=(ssl_server_dn_match=yes)))
+
+
+

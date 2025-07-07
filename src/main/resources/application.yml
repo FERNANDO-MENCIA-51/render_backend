@@ -1,0 +1,72 @@
+server:
+  port: 8080
+  error:
+    include-message: always
+    include-binding-errors: always
+    include-stacktrace: on_param
+    include-exception: true
+
+spring:
+  datasource:
+    url: jdbc:oracle:thin:@sitemadeventas_high?TNS_ADMIN=src/main/resources/Wallet_SitemaDeVentas
+    username: fernando
+    password: Haliongaming123
+    driver-class-name: oracle.jdbc.OracleDriver
+    hikari:
+      connection-timeout: 30000
+      maximum-pool-size: 10
+      minimum-idle: 2
+      idle-timeout: 300000
+  jpa:
+    database-platform: org.hibernate.dialect.OracleDialect
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        use_sql_comments: true
+        dialect: org.hibernate.dialect.OracleDialect
+        jdbc:
+          lob:
+            non_contextual_creation: true
+  # Configuración de seguridad
+  security:
+    filter:
+      order: 0
+  main:
+    allow-bean-definition-overriding: true
+
+logging:
+  level:
+    pe.edu.vallegrande.pasteleria: DEBUG
+    org.springframework.web: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    org.springframework.transaction: DEBUG
+    org.springframework.orm.jpa: DEBUG
+    org.springframework.security: DEBUG
+    pe.edu.vallegrande.pasteleria.security: TRACE
+    root: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+
+# Configuración JWT
+jwt:
+  secret: miClaveSecretaSuperSeguraParaJWT2024PasteleriaVallegrande123456789012345678901234567890123456789012345678901234567890
+  expiration: 86400000 # 24 horas en milisegundos
+
+# Configuración de Swagger/OpenAPI
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+    operationsSorter: method
+    tagsSorter: alpha
+    try-it-out-enabled: true
+    filter: true
+    doc-expansion: none
+  show-actuator: false
+  paths-to-match: /v1/api/**
