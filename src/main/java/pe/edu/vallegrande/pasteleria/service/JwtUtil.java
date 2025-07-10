@@ -19,7 +19,7 @@ public class JwtUtil {
 
     public String generateToken(String username, String rol) {
         Claims claims = Jwts.claims().setSubject(username);
-claims.put("rol", rol);
+        claims.put("rol", rol);
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(new Date(System.currentTimeMillis()))

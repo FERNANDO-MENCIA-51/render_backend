@@ -38,6 +38,7 @@ public class VentaDetalle {
     /** Venta asociada a este detalle */
     @ManyToOne
     @JoinColumn(name = "fk_venta_id", nullable = false)
+    @com.fasterxml.jackson.annotation.JsonBackReference
     private Venta venta;
 
     /** Producto vendido */

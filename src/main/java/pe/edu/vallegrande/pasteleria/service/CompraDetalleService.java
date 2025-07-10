@@ -11,6 +11,9 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class CompraDetalleService {
+    public List<CompraDetalle> findAll() {
+        return compraDetalleRepository.findAll();
+    }
     private final CompraDetalleRepository compraDetalleRepository;
 
     public List<CompraDetalle> findAllActive() {

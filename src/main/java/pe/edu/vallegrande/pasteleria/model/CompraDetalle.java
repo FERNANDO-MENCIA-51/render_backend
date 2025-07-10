@@ -4,7 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 /**
- * Entidad que representa el detalle de una compra (producto, cantidad, precio, etc).
+ * Entidad que representa el detalle de una compra (producto, cantidad, precio,
+ * etc).
  * Relaciona cada línea de producto con la compra principal.
  */
 @Entity

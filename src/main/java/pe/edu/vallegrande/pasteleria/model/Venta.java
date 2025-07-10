@@ -15,6 +15,12 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Builder
 public class Venta {
+    
+    /** Lista de detalles asociados a la venta */
+    @OneToMany(mappedBy = "venta", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @com.fasterxml.jackson.annotation.JsonManagedReference
+    @lombok.Builder.Default
+    private java.util.List<VentaDetalle> detalles = new java.util.ArrayList<>();
     /** ID único de la venta */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
