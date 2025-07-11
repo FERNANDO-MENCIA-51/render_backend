@@ -3,7 +3,6 @@ package pe.edu.vallegrande.pasteleria.rest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import io.swagger.v3.oas.annotations.Operation;
 import pe.edu.vallegrande.pasteleria.model.CompraDetalle;
 import pe.edu.vallegrande.pasteleria.service.CompraDetalleService;
 import java.util.List;
@@ -12,23 +11,16 @@ import java.util.List;
 @RequestMapping("/v1/api/compra-detalle")
 @RequiredArgsConstructor
 public class CompraDetalleController {
+    private final CompraDetalleService compraDetalleService;
+    @org.springframework.beans.factory.annotation.Autowired
+    private pe.edu.vallegrande.pasteleria.service.CompraTransaccionService compraTransaccionService;
+
     @GetMapping
-    @Operation(summary = "Listar todos los detalles de compra")
     public List<CompraDetalle> getAll() {
         return compraDetalleService.findAll();
     }
-    private final CompraDetalleService compraDetalleService;
-
-    @GetMapping("/active")
-    @Operation(summary = "Listar detalles de compra activos")
-    public List<CompraDetalle> getActive() { return compraDetalleService.findAllActive(); }
-
-    @GetMapping("/inactive")
-    @Operation(summary = "Listar detalles de compra inactivos")
-    public List<CompraDetalle> getInactive() { return compraDetalleService.findAllInactive(); }
 
     @GetMapping("/{id}")
-    @Operation(summary = "Obtener detalle de compra por ID")
     public ResponseEntity<CompraDetalle> getById(@PathVariable Long id) {
         return compraDetalleService.findById(id)
                 .map(ResponseEntity::ok)
@@ -36,11 +28,11 @@ public class CompraDetalleController {
     }
 
     @PostMapping
-    @Operation(summary = "Crear un nuevo detalle de compra")
-    public CompraDetalle create(@RequestBody CompraDetalle compraDetalle) { return compraDetalleService.save(compraDetalle); }
+    public CompraDetalle create(@RequestBody CompraDetalle compraDetalle) {
+        return compraDetalleService.save(compraDetalle);
+    }
 
     @PutMapping("/{id}")
-    @Operation(summary = "Actualizar un detalle de compra existente")
     public ResponseEntity<CompraDetalle> update(@PathVariable Long id, @RequestBody CompraDetalle compraDetalle) {
         return compraDetalleService.findById(id)
                 .map(existing -> {
@@ -50,17 +42,18 @@ public class CompraDetalleController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PatchMapping("/delete/{id}")
-    @Operation(summary = "Eliminar lógicamente un detalle de compra por ID")
-    public ResponseEntity<Void> deleteLogic(@PathVariable Long id) {
-        compraDetalleService.deleteLogic(id);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        compraDetalleService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 
-    @PatchMapping("/restore/{id}")
-    @Operation(summary = "Restaurar un detalle de compra previamente eliminado por ID")
-    public ResponseEntity<Void> restore(@PathVariable Long id) {
-        compraDetalleService.restore(id);
-        return ResponseEntity.noContent().build();
+    // Endpoint transaccional para registrar compra y detalles
+    @PostMapping("/transaccional")
+    public ResponseEntity<pe.edu.vallegrande.pasteleria.model.Compra> registrarCompraConDetalles(
+            @RequestBody pe.edu.vallegrande.pasteleria.model.dto.CompraTransaccionRequest request
+    ) {
+        pe.edu.vallegrande.pasteleria.model.Compra compra = compraTransaccionService.registrarCompraConDetalles(request);
+        return ResponseEntity.ok(compra);
     }
 }

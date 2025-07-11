@@ -71,7 +71,9 @@ public class SecurityConfig {
                                 "/swagger-ui/**",
                                 "/swagger-ui.html",
                                 "/v1/api/auth/**",
-                                "/actuator/health")
+                                "/actuator/health",
+                                "/error"
+                                )
                         .permitAll()
                         .requestMatchers(HttpMethod.OPTIONS, "/v1/api/**").permitAll()
                         // Permitir GET de reportes a ambos roles

@@ -2,12 +2,9 @@ package pe.edu.vallegrande.pasteleria.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
-/**
- * Entidad que representa la cabecera de una compra.
- * Incluye información del proveedor, fecha, total y estado.
- */
 @Entity
 @Table(name = "compra")
 @Data
@@ -22,19 +19,17 @@ public class Compra {
     @Column(name = "fecha_compra", nullable = false)
     private LocalDate fechaCompra;
 
-    @Column(name = "total_compra", nullable = false)
-    private Double totalCompra;
+    @Column(name = "total_compra", nullable = false, precision = 10, scale = 2)
+    private BigDecimal totalCompra;
 
-    @Column(name = "observaciones", length = 255)
     private String observaciones;
 
-    @Column(name = "estado", nullable = false, length = 1)
-    private String estado;
+    @Column(nullable = false, length = 1)
+    private String estado = "A";
 
-    @Column(name = "cantidad", nullable = false)
+    @Column(name = "fk_supplier_id", nullable = false)
+    private Integer fkSupplierId;
+
+    @Column(nullable = false)
     private Integer cantidad;
-
-    @ManyToOne
-    @JoinColumn(name = "fk_supplier_id", nullable = false)
-    private Supplier supplier;
 }

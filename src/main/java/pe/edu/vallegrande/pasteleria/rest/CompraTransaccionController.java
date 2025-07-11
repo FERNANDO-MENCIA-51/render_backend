@@ -4,72 +4,57 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pe.edu.vallegrande.pasteleria.model.Compra;
-import pe.edu.vallegrande.pasteleria.model.dto.CompraRequest;
+import pe.edu.vallegrande.pasteleria.model.dto.CompraTransaccionRequest;
 import pe.edu.vallegrande.pasteleria.service.CompraTransaccionService;
-import java.util.List;
-
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
-@RequestMapping("/v1/api/compras/transaccion")
+@RequestMapping("/v1/api/compra-transaccion")
 @RequiredArgsConstructor
-@Tag(name = "compra-transaccion-controller")
 public class CompraTransaccionController {
-        private final CompraTransaccionService compraTransaccionService;
+    private final CompraTransaccionService compraTransaccionService;
 
-        // Crear compra completa
-        @Operation(summary = "Registrar compra completa")
-        @PostMapping
-        public ResponseEntity<Compra> registrarCompra(@RequestBody CompraRequest request) {
-                Compra compra = compraTransaccionService.registrarCompraTransaccional(request);
-                return ResponseEntity.ok(compra);
-        }
+    @io.swagger.v3.oas.annotations.Operation(summary = "Registrar compra con detalles (cabecera y detalle)")
+    @PostMapping
+    public ResponseEntity<Compra> registrarCompraConDetalles(@RequestBody CompraTransaccionRequest request) {
+        Compra compra = compraTransaccionService.registrarCompraConDetalles(request);
+        return ResponseEntity.ok(compra);
+    }
 
-        // Listar todas las compras con sus detalles
-        @Operation(summary = "Listar todas las compras")
-        @GetMapping("/all")
-        public ResponseEntity<List<Compra>> listarTodasLasCompras() {
-                List<Compra> compras = compraTransaccionService.listarTodasLasCompras();
-                return ResponseEntity.ok(compras);
-        }
+    // Listar todas las compras con detalles
+    @io.swagger.v3.oas.annotations.Operation(summary = "Listar todas las compras con sus detalles")
+    @GetMapping
+    public ResponseEntity<java.util.List<pe.edu.vallegrande.pasteleria.model.dto.CompraTransaccionResponse>> listarComprasConDetalles() {
+        return ResponseEntity.ok(compraTransaccionService.listarComprasConDetalles());
+    }
 
-        // Consultar compra completa por ID
-        @Operation(summary = "Obtener compra por ID")
-        @GetMapping("/{id}")
-        public ResponseEntity<Compra> obtenerCompraCompleta(@PathVariable Long id) {
-                Compra compra = compraTransaccionService.obtenerCompraCompleta(id);
-                return ResponseEntity.ok(compra);
-        }
+    // Obtener una compra por ID con detalles
+    @io.swagger.v3.oas.annotations.Operation(summary = "Obtener una compra por ID con sus detalles")
+    @GetMapping("/{id}")
+    public ResponseEntity<pe.edu.vallegrande.pasteleria.model.dto.CompraTransaccionResponse> obtenerCompraConDetalles(@PathVariable Long id) {
+        return ResponseEntity.ok(compraTransaccionService.obtenerCompraConDetalles(id));
+    }
 
-        // Actualizar compra completa
-        /**
-         * Actualiza una compra completa (cabecera y detalles) por su ID.
-         */
-        @Operation(summary = "Actualizar compra completa")
-        @PutMapping("/{id}")
-        public ResponseEntity<Compra> actualizarCompraCompleta(@PathVariable Long id,
-                        @RequestBody CompraRequest request) {
-                Compra compra = compraTransaccionService.actualizarCompraCompleta(id, request);
-                return ResponseEntity.ok(compra);
-        }
+    // Editar una compra y sus detalles
+    @io.swagger.v3.oas.annotations.Operation(summary = "Editar una compra y sus detalles")
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> editarCompraConDetalles(@PathVariable Long id, @RequestBody pe.edu.vallegrande.pasteleria.model.dto.CompraTransaccionRequest request) {
+        compraTransaccionService.editarCompraConDetalles(id, request);
+        return ResponseEntity.noContent().build();
+    }
 
-        // Eliminar lógica de compra completa
-        /**
-         * Elimina lógicamente una compra completa (cabecera y detalles) por su ID.
-         */
-        @Operation(summary = "Eliminar compra completa (lógico)")
-        @PatchMapping("/delete/{id}")
-        public ResponseEntity<Void> eliminarCompraCompleta(@PathVariable Long id) {
-                compraTransaccionService.eliminarCompraCompleta(id);
-                return ResponseEntity.noContent().build();
-        }
+    // Eliminar (estado 'I') una compra y sus detalles
+    @io.swagger.v3.oas.annotations.Operation(summary = "Eliminar (baja lógica) una compra y sus detalles")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> eliminarCompra(@PathVariable Long id) {
+        compraTransaccionService.eliminarCompra(id);
+        return ResponseEntity.noContent().build();
+    }
 
-        // Restaurar compra completa
-        @Operation(summary = "Restaurar compra completa")
-        @PatchMapping("/restore/{id}")
-        public ResponseEntity<Void> restaurarCompraCompleta(@PathVariable Long id) {
-                compraTransaccionService.restaurarCompraCompleta(id);
-                return ResponseEntity.noContent().build();
-        }
+    // Restaurar (estado 'A') una compra y sus detalles
+    @io.swagger.v3.oas.annotations.Operation(summary = "Restaurar (alta lógica) una compra y sus detalles")
+    @PutMapping("/restaurar/{id}")
+    public ResponseEntity<Void> restaurarCompra(@PathVariable Long id) {
+        compraTransaccionService.restaurarCompra(id);
+        return ResponseEntity.noContent().build();
+    }
 }

@@ -8,9 +8,9 @@ server:
 
 spring:
   datasource:
-    url: jdbc:oracle:thin:@sitemadeventas_high?TNS_ADMIN=src/main/resources/Wallet_SitemaDeVentas
-    username: fernando
-    password: Haliongaming123
+    url: jdbc:oracle:thin:@sitemadeventas_high?TNS_ADMIN=/app/Wallet_SistemaDeVentas
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
     driver-class-name: oracle.jdbc.OracleDriver
     hikari:
       connection-timeout: 30000
